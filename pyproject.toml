@@ -1,0 +1,12 @@
+[project]
+name = "expense-tracker-api-flask"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.2",
+    "psycopg-pool>=3.2.6",
+    "psycopg[binary]>=3.2.10",
+    "pydantic>=2.11.9",
+]
