@@ -3,13 +3,7 @@ from psycopg import sql
 from src.config import settings
 
 # Connect to Postgres (default 'postgres' DB)
-conn = psycopg.connect(
-    user=settings.DB_USER,
-    password=settings.DB_PASSWORD,
-    host=settings.DB_HOST,
-    port=settings.DB_PORT,
-    dbname=settings.DEFAULT_DB_NAME
-)
+conn = psycopg.connect(settings.default_db_url)
 
 # Enable autocommit so CREATE DATABASE etc. run outside a transaction block
 conn.autocommit = True

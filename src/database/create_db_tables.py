@@ -7,13 +7,7 @@ sql_path = Path("schema.sql")
 schema_sql = sql_path.read_text()
 
 # Connect to Postgres (default 'postgres' DB or whichever you’ve created)
-conn = psycopg.connect(
-    user=settings.DB_USER,
-    password=settings.DB_PASSWORD,
-    host=settings.DB_HOST,
-    port=settings.DB_PORT,
-    dbname=settings.DB_NAME
-)
+conn = psycopg.connect(settings.db_url)
 
 # Enable autocommit so CREATE TABLE etc. run outside a transaction block
 conn.autocommit = True
