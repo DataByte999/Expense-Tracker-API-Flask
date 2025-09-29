@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     DATABASE_URL: str | None = None
     DEFAULT_DATABASE_URL: str | None = None
 
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str
+    JWT_EXPIRE_IN: int
+
     class Config:
         env_file = BASE_DIR / ".env"
         env_file_encoding = "utf-8"
