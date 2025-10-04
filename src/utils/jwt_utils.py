@@ -28,15 +28,17 @@ def decode_token(token):
         return JWTPayload.model_validate(payload)
     except ValidationError:
         raise UnauthorizedError("Invalid token data")
-# TODO Handle Errors in jwt and checking token
+
 
 def jwt_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth_header = request.headers.get("Authorization")
-        if not auth_header or not auth_header.startswith("Bearer"):
+        if not auth_header:
             raise UnauthorizedError("Missing or invalid Authorization header.")
         parts = auth_header.split()
+        if not parts[0] == "Bearer":
+            raise UnauthorizedError("Missing or invalid Bearer header.")
         token = parts[1]
         payload = decode_token(token)
         g.user_id = payload.sub

@@ -17,14 +17,10 @@ def tx_list():
     return jsonify(all_transactions), 200
 
 
-@tx_bp.get("/info/<int:transaction_id>")
+@tx_bp.get("/info/<transaction_id>")
 @jwt_required
 def tx_info(transaction_id: int):
-    try:
-        payload = TransactionId.model_validate({"id": transaction_id})
-    except ValidationError as e:
-        raise  BadRequestError(str(e))
-
+    payload = TransactionId.model_validate({"id": transaction_id})
     transaction = transaction_info(g.user_id, payload.id)
     return jsonify(transaction), 200
 
@@ -32,10 +28,7 @@ def tx_info(transaction_id: int):
 @tx_bp.post("/new")
 @jwt_required
 def tx_new():
-    try:
-        payload = TransactionIn.model_validate(request.json)
-    except ValidationError as e:
-        raise  BadRequestError(str(e))
+    payload = TransactionIn.model_validate(request.json)
     new_tx = create_transaction(
         g.user_id,
         payload.kind,
@@ -46,28 +39,18 @@ def tx_new():
     return jsonify(new_tx), 201
 
 
-@tx_bp.patch("/update/<int:transaction_id>")
+@tx_bp.patch("/update/<transaction_id>")
 @jwt_required
 def tx_update(transaction_id: int):
-    try:
-        tx = TransactionId.model_validate({"id": transaction_id})
-        payload = UpdateTransactionIn.model_validate(request.json).model_dump(exclude_unset=True)
-    except ValidationError as e:
-        raise  BadRequestError(str(e))
-
+    tx = TransactionId.model_validate({"id": transaction_id})
+    payload = UpdateTransactionIn.model_validate(request.json).model_dump(exclude_unset=True)
     updated_tx = transaction_update(g.user_id, tx.id, payload)
-
     return jsonify(updated_tx), 200
 
 
-@tx_bp.delete("/delete/<int:transaction_id>")
+@tx_bp.delete("/delete/<transaction_id>")
 @jwt_required
 def tx_delete(transaction_id: int):
-    try:
-        tx = TransactionId.model_validate({"id": transaction_id})
-    except ValidationError as e:
-        raise  BadRequestError(str(e.errors()))
-
+    tx = TransactionId.model_validate({"id": transaction_id})
     deleted_tx = transaction_delete(g.user_id, tx.id)
-
     return {"message": f"Transaction with id: {deleted_tx["id"]}, deleted successfully!"}, 200

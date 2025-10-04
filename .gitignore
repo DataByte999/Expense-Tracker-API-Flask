@@ -17,3 +17,12 @@ playground
 
 # DB schema
 src/database/schema.sql
+
+# Pytest coverage
+.coverage
+
+# Pytest benchmarks
+.benchmarks
+
+# Temporarely tests
+tests
