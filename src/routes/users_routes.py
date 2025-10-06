@@ -4,17 +4,17 @@ from src.utils.jwt_utils import jwt_required
 from src.schemas.auth_user_schemas import UpdateUserIn
 
 
-user_bp = Blueprint("user", __name__, url_prefix="/user")
+user_bp = Blueprint("user", __name__, url_prefix="/")
 
 
-@user_bp.get("/")
+@user_bp.get("/me")
 @jwt_required
 def user_info():
     user = get_user_by_id(g.user_id)
     return jsonify(user), 200
 
 
-@user_bp.patch("/update")
+@user_bp.patch("/me")
 @jwt_required
 def update_user():
     payload = UpdateUserIn.model_validate(request.json).model_dump(by_alias=True, exclude_unset=True)
@@ -22,7 +22,7 @@ def update_user():
     return jsonify(updated_info), 200
 
 
-@user_bp.delete("/delete")
+@user_bp.delete("/me")
 @jwt_required
 def delete_user():
     deleted_user = user_delete(g.user_id)

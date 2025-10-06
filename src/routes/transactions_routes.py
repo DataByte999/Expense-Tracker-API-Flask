@@ -17,7 +17,7 @@ def tx_list():
     return jsonify(all_transactions), 200
 
 
-@tx_bp.get("/info/<transaction_id>")
+@tx_bp.get("/<transaction_id>")
 @jwt_required
 def tx_info(transaction_id: int):
     payload = TransactionId.model_validate({"id": transaction_id})
@@ -25,7 +25,7 @@ def tx_info(transaction_id: int):
     return jsonify(transaction), 200
 
 
-@tx_bp.post("/new")
+@tx_bp.post("/")
 @jwt_required
 def tx_new():
     payload = TransactionIn.model_validate(request.json)
@@ -39,7 +39,7 @@ def tx_new():
     return jsonify(new_tx), 201
 
 
-@tx_bp.patch("/update/<transaction_id>")
+@tx_bp.patch("/<transaction_id>")
 @jwt_required
 def tx_update(transaction_id: int):
     tx = TransactionId.model_validate({"id": transaction_id})
@@ -48,7 +48,7 @@ def tx_update(transaction_id: int):
     return jsonify(updated_tx), 200
 
 
-@tx_bp.delete("/delete/<transaction_id>")
+@tx_bp.delete("/<transaction_id>")
 @jwt_required
 def tx_delete(transaction_id: int):
     tx = TransactionId.model_validate({"id": transaction_id})
