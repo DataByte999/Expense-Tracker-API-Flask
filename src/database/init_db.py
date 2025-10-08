@@ -1,5 +1,6 @@
 import psycopg
 from psycopg import sql
+
 from src.config import settings
 
 # Connect to Postgres (default 'postgres' DB)

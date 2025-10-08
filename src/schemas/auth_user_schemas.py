@@ -1,5 +1,6 @@
+from typing import Annotated, Literal
+
 from pydantic import BaseModel, EmailStr, Field
-from typing import Annotated, Literal, Optional
 
 
 class UserOut(BaseModel):
@@ -25,16 +26,19 @@ class LoginIn(BaseModel):
 
 class TokenOut(BaseModel):
     access_token: str
-    token_type: Literal["Bearer"] = "Bearer"
+    token_type: Literal["Bearer"] = "Bearer"  # noqa S105
 
 
 class UpdateUserIn(BaseModel):
-    username: Optional[str] = Field(None, min_length=3, max_length=50)
-    email: Optional[EmailStr] = None
-    password: Optional[str] = Field(None, min_length=8, serialization_alias="password_hash")
+    username: str | None = Field(None, min_length=3, max_length=50)
+    email: EmailStr | None = None
+    password: str | None = Field(
+        None, min_length=8, serialization_alias="password_hash"
+    )
+
 
 class UpdateUserOut(UserOut):
-    password: Literal["********"] = "********"
+    password: Literal["********"] = "********"  # noqa S105
 
 
 class DeleteUserOut(BaseModel):

@@ -1,5 +1,6 @@
-from pydantic_settings import BaseSettings
 from pathlib import Path
+
+from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,16 +25,19 @@ class Settings(BaseSettings):
         env_file = BASE_DIR / ".env"
         env_file_encoding = "utf-8"
 
-
     @property
     def db_url(self) -> str:
-        return (self.DATABASE_URL or
-                f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}")
+        return (
+            self.DATABASE_URL
+            or f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        )
 
     @property
     def default_db_url(self) -> str:
-        return (self.DEFAULT_DATABASE_URL or
-                f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DEFAULT_DB_NAME}")
+        return (
+            self.DEFAULT_DATABASE_URL
+            or f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DEFAULT_DB_NAME}"
+        )
 
 
 settings = Settings()

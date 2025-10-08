@@ -1,21 +1,43 @@
-from flask import Blueprint, request, jsonify
-from src.services.auth_service import create_user, authenticate
-from src.schemas.auth_user_schemas import RegisterIn, LoginIn
+from flask import Blueprint, jsonify, request
 
-
+from src.schemas.auth_user_schemas import LoginIn, RegisterIn
+from src.services.auth_service import authenticate, create_user
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
 @auth_bp.post("/register")
 def register():
-    payload = RegisterIn.model_validate(request.json)
-    user_data = create_user(payload.username, payload.email, payload.password)
-    return jsonify(user_data), 201
+    """
+    Create a new user account.
+
+    Request Body:
+        username (str): User's username.
+        email (str): User's email address.
+        password (str): User's password.
+
+    Returns:
+          JSON response (201 Created) containing registered user's information.
+    """
+    request_data = RegisterIn.model_validate(request.json)
+    created_user = create_user(
+        request_data.username, str(request_data.email), request_data.password
+    )
+    return jsonify(created_user), 201
 
 
 @auth_bp.post("/login")
 def login():
-    payload = LoginIn.model_validate(request.json)
-    token = authenticate(payload.email, payload.password)
-    return jsonify(token), 200
+    """
+    Authenticate a user and issue an access token.
+
+    Request Body:
+        email (str): User's email address.
+        password (str): User's password.
+
+    Returns:
+          JSON response (200 OK) containing token type and access token.
+    """
+    request_data = LoginIn.model_validate(request.json)
+    token_data = authenticate(str(request_data.email), request_data.password)
+    return jsonify(token_data), 200

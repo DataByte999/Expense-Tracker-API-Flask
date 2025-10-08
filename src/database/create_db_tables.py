@@ -1,12 +1,14 @@
-import psycopg
-from src.config import settings
 from pathlib import Path
+
+import psycopg
+
+from src.config import settings
 
 # Read the SQL file
 sql_path = Path("schema.sql")
 schema_sql = sql_path.read_text()
 
-# Connect to Postgres (default 'postgres' DB or whichever you’ve created)
+# Connect to Postgres
 conn = psycopg.connect(settings.db_url)
 
 # Enable autocommit so CREATE TABLE etc. run outside a transaction block
