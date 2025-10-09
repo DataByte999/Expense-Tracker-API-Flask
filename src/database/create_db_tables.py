@@ -5,7 +5,7 @@ import psycopg
 from src.config import settings
 
 # Read the SQL file
-sql_path = Path("schema.sql")
+sql_path = Path(__file__).parent / "schema.sql"
 schema_sql = sql_path.read_text()
 
 # Connect to Postgres
