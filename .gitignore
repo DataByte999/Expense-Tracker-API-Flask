@@ -16,7 +16,7 @@ wheels/
 playground
 
 # DB schema
-src/database/schema.sql
+#src/database/schema.sql
 
 # Pytest coverage
 .coverage

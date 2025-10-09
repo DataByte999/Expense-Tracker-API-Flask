@@ -66,8 +66,8 @@ def add_transaction():
     new_tx = create_transaction(
         g.user_id,
         request_data.kind,
-        str(request_data.transaction_date),
-        float(request_data.amount),
+        request_data.transaction_date,
+        request_data.amount,
         request_data.description,
     )
     return jsonify(new_tx), 201
